@@ -11,14 +11,21 @@ import {
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button";
 import { LogInIcon, Menu } from "lucide-react";
-
+import {useSession}from 'next-auth/react';
+import {handleRegister} from '../_actions/login'
 export function Header() {
     const[isOpen,setIsOpen] = useState(false);
-    const session = null;
+    const{data:session, status} = useSession();
+    
     const navItems=[
         {href:'#profissionais', label:"Profissionais"},        
     ]
 
+
+    async function handleLogin(){
+        await handleRegister("github")
+    }
+    
 const NavLinks = () =>(
     <>
     {navItems.map((item)=>(
@@ -34,16 +41,19 @@ const NavLinks = () =>(
         </Button>
     ))}
 
-    {session ? (
+    {status === 'loading' ? ((
+        <></>
+    )):session ? (
         <Link href="/dashboard"
-        className="flex items-center justify-center gap-2"
+        className="flex items-center justify-center gap-2 bg-zin-900 text-white py-1 rounded-md px-4"
         >
             Acessar Clínica
         </Link>
     ):(
-        <Button>
+        <Button onClick={handleLogin}>
             <LogInIcon/>
-            Fazer Login</Button>
+            Fazer Login
+            </Button>
     )}
 
 
