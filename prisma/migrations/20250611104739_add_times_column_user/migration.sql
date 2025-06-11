@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "times" TEXT[] DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "timeZone" DROP NOT NULL;
